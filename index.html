@@ -8,7 +8,9 @@
 </head>
 
 <body>
-
+    <h1>Definition</h1>
+    <h2 id="search_word_label">Wort</h2>
+    <h3 id="definition_label">Definition</h3>
 
     <script>
 
@@ -19,11 +21,11 @@
 
             let request_result_object = {
                 'word': word,
-                'definition': [],
-                'phonetic': '',
-                'audio_path': '',
-                'error_title': '',
-                'error_message': ''
+                'definitions': undefined,
+                'phonetic': undefined,
+                'audio_path': undefined,
+                'error_title': undefined,
+                'error_message': undefined
             }
             let is_error = false;
 
@@ -35,14 +37,13 @@
                 try {
                     request_result_object.error_title = data.title;
                     request_result_object.error_message = data.message + data.resolution;
-                    is_error = true;
                 } catch (error) {
                     
                 }
 
                 //* try to catch the definition
                 try {
-                    request_result_object.definition = data[0].meanings[0].definitions;
+                    request_result_object.definitions = data[0].meanings[0].definitions;
                 } catch (error) {
                     console.error("Fehler (definition):", error); 
                 }
@@ -60,20 +61,51 @@
                 } catch (error) {
                     console.error("Fehler (audio_path):", error);
                 }
+
+                render_result(request_result_object);
                
             } catch (error) {
                 console.error("Fehler:", error);
             }
         }
 
-        get_definition(req_url, 'en', 'feffe');
+      
 
 
         function render_result(result_obj) {
-            
+            console.log('result_obj', result_obj);
+            if(result_obj.error_message === NaN) {
+                document.getElementById('search_word_label').innerHTML = result_obj.error_title;
+                document.getElementById('search_word_label').style.color = 'red';
+
+                document.getElementById('definition_label').innerHTML = result_obj.error_message;
+                document.getElementById('definition_label').style.background = 'black';
+                document.getElementById('definition_label').style.color = 'yellow';
+            }else {
+                document.getElementById('search_word_label').innerHTML = result_obj.word;
+                document.getElementById('search_word_label').style.color = 'black';
+
+                const definition_Array = result_obj.definitions;
+                let definitionString = '';
+
+                console.log(result_obj.definitions.length);
+                for(let i = 0; i < definition_Array.length; i++) {
+                    console.log(definition_Array);
+                    definitionString = definitionString + definition_Array[i].definition + '</br> </br>';
+                }
+                
+                document.getElementById('definition_label').innerHTML = definitionString;
+
+                document.getElementById('definition_label').style.background = 'white';
+                document.getElementById('definition_label').style.color = 'black';
+            }
         }
 
-        
+
+
+        get_definition(req_url, 'en', 'function');
+
+
     </script>
 </body>
 
