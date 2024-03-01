@@ -79,36 +79,28 @@
                 //* try to catch the definition
                 try {
                     request_result_object.definitions = data[0].meanings[0].definitions;
-                } catch (error) {
-                    console.error("Fehler (definition):", error);
-                }
+                } catch (error) {}
 
                 //* try to catch the phonetic
                 try {
                     request_result_object.phonetic = data[0].phonetic;
-                } catch (error) {
-                    console.error("Fehler (phonetic):", error);
-                }
+                } catch (error) {}
 
                 //* try to catch the audio
                 try {
                     request_result_object.audio_path = data[0].phonetics[0].audio;
-                } catch (error) {
-                    console.error("Fehler (audio_path):", error);
-                }
+                } catch (error) {}
 
+                //* Render
                 render_result(request_result_object);
 
-            } catch (error) {
-                console.error("Fehler:", error);
-            }
+            } catch (error) {}
         }
 
 
 
 
         function render_result(result_obj) {
-            console.log('result_obj', result_obj);
             if (result_obj.error_title !== undefined) {
                 document.getElementById('search_word_label').innerHTML = result_obj.error_title;
                 document.getElementById('search_word_label').style.color = 'red';
@@ -123,26 +115,16 @@
                 let definitionString = '';
                 definition_label.innerHTML = '';
 
-                console.log(result_obj.definitions.length);
                 for (let i = 0; i < definition_Array.length; i++) {
-                    console.log(definition_Array);
-                    //definitionString = definitionString + definition_Array[i].definition + '</br> </br>';
-
                     let resultDiv = document.createElement('div');
                     resultDiv.classList.add('rs-div');
                     resultDiv.innerHTML = definition_Array[i].definition;
 
                     definition_label.appendChild(resultDiv);
-
                 }
                 document.getElementById('definition_label').style.color = 'black';
             }
         }
-
-
-
-
-
 
     </script>
 </body>
