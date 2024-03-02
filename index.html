@@ -9,7 +9,8 @@
         .wrapper {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
+            justify-content: flex-start;
         }
 
         .rs-div {
@@ -20,7 +21,23 @@
             padding: 10px;
             font-size: 18px;
             font-family: sans-serif;
-            width: 310px;
+            width: 100%;
+            max-width: 310px;
+        }
+
+        #search_word_label {
+            letter-spacing: 2px;
+            position: sticky;
+            top: 0;
+            background-color: white;
+            padding: 20px 10px;
+        }
+
+        #myForm {
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+            margin: 0 auto;
 
         }
     </style>
@@ -33,12 +50,13 @@
         <label for="inputField">Englisches Suchwort eingeben:</label>
         <br>
         <input type="text" id="inputField" name="inputField" required>
+        <br>
         <button type="submit">Absenden</button>
     </form>
 
 
-    <h2 id="search_word_label">Wort</h2>
-    <div class="wrapper" id="definition_label">Definition:</div>
+    <h2 id="search_word_label"></h2>
+    <div class="wrapper" id="definition_label"></div>
 
     <script>
 
@@ -102,7 +120,7 @@
 
         function render_result(result_obj) {
             if (result_obj.error_title !== undefined) {
-                document.getElementById('search_word_label').innerHTML = result_obj.error_title;
+                document.getElementById('search_word_label').innerHTML = result_obj.error_title + ' >>' + result_obj.word + '<<';
                 document.getElementById('search_word_label').style.color = 'red';
 
                 document.getElementById('definition_label').innerHTML = result_obj.error_message;
