@@ -1,150 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-        }
+    <link rel="stylesheet" href="src/scss/style.css" />
+  </head>
 
-        .rs-div {
-            background-color: lightblue;
-            border-radius: 10px;
-            margin-top: 4px;
-            border: 3px solid black;
-            padding: 10px;
-            font-size: clamp(12px, 2vw + 1rem, 30px);
-            font-family: sans-serif;
-            width: min(90%, 1000px);
-        }
-
-        #search_word_label {
-            letter-spacing: 2px;
-            font-size: clamp(12px, 2vw + 1rem, 50px);
-            position: sticky;
-            top: 0;
-            background-color: white;
-            padding: 20px 10px;
-        }
-
-        #myForm {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            margin: 0 auto;
-
-        }
-    </style>
-</head>
-
-<body>
+  <body>
     <h1>Definition</h1>
 
     <form id="myForm">
-        <label for="inputField">Englisches Suchwort eingeben:</label>
-        <br>
-        <input type="text" id="inputField" name="inputField" required>
-        <br>
-        <button type="submit">Absenden</button>
+      <label for="inputField">Englisches Suchwort eingeben:</label>
+      <br />
+      <input type="text" id="inputField" name="inputField" required />
+      <br />
+      <button type="submit">Absenden</button>
     </form>
-
 
     <h2 id="search_word_label"></h2>
     <div class="wrapper" id="definition_label"></div>
 
-    <script>
-
-        const req_url = 'https://api.dictionaryapi.dev/api/v2/entries';
-
-        document.getElementById('myForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const searchword = document.getElementById('inputField').value;
-            get_definition(req_url, 'en', searchword);
-            document.getElementById('inputField').value = '';
-        });
-
-
-        async function get_definition(req_url, lang, word) {
-
-            let request_result_object = {
-                'word': word,
-                'definitions': undefined,
-                'phonetic': undefined,
-                'audio_path': undefined,
-                'error_title': undefined,
-                'error_message': undefined
-            }
-            let is_error = false;
-
-            try {
-                const res = await fetch(`${req_url}/${lang}/${word}`)
-                const data = await res.json();
-                console.log(data);
-
-                try {
-                    request_result_object.error_title = data.title;
-                    request_result_object.error_message = data.message + data.resolution;
-                } catch (error) {
-
-                }
-
-                //* try to catch the definition
-                try {
-                    request_result_object.definitions = data[0].meanings[0].definitions;
-                } catch (error) {}
-
-                //* try to catch the phonetic
-                try {
-                    request_result_object.phonetic = data[0].phonetic;
-                } catch (error) {}
-
-                //* try to catch the audio
-                try {
-                    request_result_object.audio_path = data[0].phonetics[0].audio;
-                } catch (error) {}
-
-                //* Render
-                render_result(request_result_object);
-
-            } catch (error) {}
-        }
-
-
-
-
-        function render_result(result_obj) {
-            if (result_obj.error_title !== undefined) {
-                document.getElementById('search_word_label').innerHTML = result_obj.error_title + ' >>' + result_obj.word + '<<';
-                document.getElementById('search_word_label').style.color = 'red';
-
-                document.getElementById('definition_label').innerHTML = result_obj.error_message;
-                document.getElementById('definition_label').style.color = 'red';
-            } else {
-                document.getElementById('search_word_label').innerHTML = result_obj.word + result_obj.phonetic;
-                document.getElementById('search_word_label').style.color = 'black';
-
-                const definition_Array = result_obj.definitions;
-                let definitionString = '';
-                definition_label.innerHTML = '';
-
-                for (let i = 0; i < definition_Array.length; i++) {
-                    let resultDiv = document.createElement('div');
-                    resultDiv.classList.add('rs-div');
-                    resultDiv.innerHTML = definition_Array[i].definition;
-
-                    definition_label.appendChild(resultDiv);
-                }
-                document.getElementById('definition_label').style.color = 'black';
-            }
-        }
-
-    </script>
-</body>
-
+    <script src="src/js/script.js"></script>
+  </body>
 </html>

@@ -1,0 +1,47 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  overflow: clip;
+}
+
+body {
+  background-color: #fff;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.rs-div {
+  background-color: lightblue;
+  border-radius: 10px;
+  margin-top: 4px;
+  border: 3px solid black;
+  padding: 10px;
+  font-size: clamp(12px, 2vw + 1rem, 30px);
+  font-family: sans-serif;
+  width: min(90%, 1000px);
+}
+
+#search_word_label {
+  letter-spacing: 2px;
+  font-size: clamp(12px, 2vw + 1rem, 50px);
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 20px 10px;
+}
+
+#myForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+}/*# sourceMappingURL=style.css.map */
